@@ -86,7 +86,7 @@ func (t *Transformer) CreateBeatEvents(_ context.Context, eventData evaluator.Ev
 			Timestamp: timestamp,
 			Fields: mapstr.M{
 				resMetadata.ECSFormat: eventData.GetElasticCommonData(),
-				"event":               buildECSEvent(eventData.CycleMetadata.Sequence, eventData.Metadata.CreatedAt),
+				"event":               BuildECSEvent(eventData.CycleMetadata.Sequence, eventData.Metadata.CreatedAt, []string{ecsCategoryConfiguration}),
 				"resource":            resource,
 				"result":              finding.Result,
 				"rule":                finding.Rule,
@@ -106,10 +106,10 @@ func (t *Transformer) CreateBeatEvents(_ context.Context, eventData evaluator.Ev
 	return events, nil
 }
 
-func buildECSEvent(seq int64, created time.Time) ECSEvent {
+func BuildECSEvent(seq int64, created time.Time, categories []string) ECSEvent {
 	id, _ := uuid.NewV4() // zero value in case of an error is uuid.Nil
 	return ECSEvent{
-		Category: []string{ecsCategoryConfiguration},
+		Category: categories,
 		Created:  created,
 		ID:       id.String(),
 		Kind:     ecsKindState,

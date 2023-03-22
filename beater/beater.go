@@ -19,7 +19,6 @@ package beater
 
 import (
 	"fmt"
-
 	"github.com/elastic/cloudbeat/config"
 	"github.com/elastic/cloudbeat/flavors"
 	"github.com/elastic/cloudbeat/launcher"
@@ -46,12 +45,15 @@ func New(b *beat.Beat, cfg *agentconfig.C) (beat.Beater, error) {
 
 // NewBeater creates an instance of beater.
 func NewBeater(b *beat.Beat, cfg *agentconfig.C) (beat.Beater, error) {
+	log := logp.NewLogger("NewBeater")
 	c, err := config.New(cfg)
 	if err != nil {
 		return nil, fmt.Errorf("NewBeater: could not parse configuration %v, skipping with error: %w", cfg.FlattenedKeys(), err)
 	}
+
+	log.Infof("NewBeater: deployment type: %s", c.Deployment)
 	switch c.Deployment {
-	case config.VulnerabilityType:
+	case "aws":
 		return flavors.NewVulnerability(b, cfg)
 	default:
 		return flavors.NewPosture(b, cfg)
