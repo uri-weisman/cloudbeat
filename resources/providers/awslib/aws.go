@@ -23,7 +23,7 @@ import (
 	awssdk "github.com/aws/aws-sdk-go-v2/aws"
 )
 
-const DefaultRegion = "us-east-1"
+const DefaultRegion = "eu-west-1"
 
 var ErrClientNotFound = errors.New("aws client not found")
 

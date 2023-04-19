@@ -1,0 +1,21 @@
+cloudbeat:
+  config:
+    v1:
+      type: "vuln_mgmt"
+      deployment: "aws"
+      region: eu-west-1
+
+output.elasticsearch:
+    # Array of hosts to connect to.
+    hosts: ["vul-test-permissions.es.us-west2.gcp.elastic-cloud.com:443"]
+
+    # Protocol - either `http` (default) or `https`.
+    protocol: "https"
+    port: 443
+    # Authentication credentials - either API key or username/password.
+    #api_key: "id:api_key"
+    username: elastic
+    password: vijsssXUxq0yDwiStYtxA9OL
+
+    # Enable to allow sending output to older ES versions
+    allow_older_versions: true
