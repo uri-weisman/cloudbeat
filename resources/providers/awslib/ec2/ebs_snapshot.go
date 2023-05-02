@@ -31,6 +31,7 @@ type EBSSnapshot struct {
 	Region     string
 	awsAccount string
 	VolumeSize int
+	Encrypted  bool
 }
 
 func (e EBSSnapshot) GetResourceArn() string {
@@ -55,6 +56,7 @@ func FromSnapshotInfo(snapshot types.SnapshotInfo, region string, awsAccount str
 		awsAccount: awsAccount,
 		VolumeSize: int(*snapshot.VolumeSize),
 		Instance:   ins,
+		Encrypted:  *snapshot.Encrypted,
 	}
 }
 
@@ -66,5 +68,6 @@ func FromSnapshot(snapshot types.Snapshot, region string, awsAccount string, ins
 		awsAccount: awsAccount,
 		VolumeSize: int(*snapshot.VolumeSize),
 		Instance:   ins,
+		Encrypted:  *snapshot.Encrypted,
 	}
 }

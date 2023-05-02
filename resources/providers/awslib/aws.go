@@ -38,6 +38,7 @@ type AwsResource interface {
 	GetResourceArn() string
 	GetResourceName() string
 	GetResourceType() string
+	GetRegion() string
 }
 
 func GetClient[T any](region *string, list map[string]T) (T, error) {
