@@ -19,12 +19,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: elastic/integrations
-          path: $FOLDER
+          path: ${{ FOLDER }}
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: main
 
       - name: Make changes to pull request
-        run: date +%s > integrations/report.txt
+        run: date +%s > ${{ FOLDER }}/report.txt
 
 #      - name: Pushes to another repository
 #        uses: cpina/github-action-push-to-another-repository@v1.7.2
