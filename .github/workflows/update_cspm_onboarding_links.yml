@@ -21,6 +21,7 @@ jobs:
           repository: elastic/integrations
 #          path: integrations
           token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
           ref: main
 
       - name: Make changes to pull request
