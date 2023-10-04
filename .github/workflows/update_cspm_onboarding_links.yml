@@ -52,6 +52,9 @@ jobs:
           # Create a new feature branch for the changes.
           git checkout -b $BRANCH_NAME
 
+          # Store the PAT in a file that can be accessed by the
+          # GitHub CLI.
+          echo "${{ secrets.GITHUB_TOKEN }}" > token.txt
           # Authorize GitHub CLI for the current repository
           gh auth login --with-token < token.txt
 
@@ -60,9 +63,6 @@ jobs:
           git commit -m "$COMMIT_MSG"
           git push origin $BRANCH_NAME
 
-          # Store the PAT in a file that can be accessed by the
-          # GitHub CLI.
-          echo "${{ secrets.GITHUB_TOKEN }}" > token.txt
 
 
           # create a pull-requests containing the updates.
