@@ -19,12 +19,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: elastic/integrations
-          path: integrations
+#          path: integrations
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: main
 
       - name: Make changes to pull request
-        run: date +%s > integrations/report.txt
+        run: date +%s > report.txt
 
 #      - name: Pushes to another repository
 #        uses: cpina/github-action-push-to-another-repository@v1.7.2
@@ -40,34 +40,44 @@ jobs:
 #          target-branch: main
 
       - name: Create Pull Request
-        run: |
-          REPOSITORY="elastic/integrations"
-          BRANCH_NAME="test_onboarding_links_update"
-          COMMIT_MSG="Automated update of CSPM onboarding links due to Cloudbeat's version bump"
+        uses: peter-evans/create-pull-request@v5
+        id: cpr
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "test commit message"
+          branch: automate_links_version_update
+          title: "Automated update of CSPM onboarding links due to Cloudbeat's version bump"
+          body: "Automated PR"
+          base: main
+          committer: 'Elastic Machine <elasticmachine@users.noreply.github.com>'
+          author: 'Elastic Machine <elasticmachine@users.noreply.github.com>'
 
-          cd integrations
-          git config user.email "elasticmachine@users.noreply.github.com"
-          git config user.name "Elastic Machine"
-
-          # Create a new feature branch for the changes.
-          git checkout -b $BRANCH_NAME
-
-          # Store the PAT in a file that can be accessed by the
-          # GitHub CLI.
-          echo "${{ secrets.GITHUB_TOKEN }}" > token.txt
-          # Authorize GitHub CLI for the current repository
-          gh auth login --with-token < token.txt
-
-          # Commit the changes and push the feature branch to origin
-          git add .
-          git commit -m "$COMMIT_MSG"
-          git push origin $BRANCH_NAME
-
-
-
-          # create a pull-requests containing the updates.
-          gh pr create \
-          --body "" \
-          --title "chore: update scripts to $LATEST_TAG" \
-          --head "$BRANCH_NAME" \
-          --base "main"
+#      - name: Create Pull Request
+#        run: |
+#          REPOSITORY="elastic/integrations"
+#          BRANCH_NAME="test_onboarding_links_update"
+#          COMMIT_MSG="Automated update of CSPM onboarding links due to Cloudbeat's version bump"
+#
+#          cd integrations
+#          git config user.email "elasticmachine@users.noreply.github.com"
+#          git config user.name "Elastic Machine"
+#
+#          # Create a new feature branch for the changes.
+#          git checkout -b $BRANCH_NAME
+#
+#          # Commit the changes and push the feature branch to origin
+#          git add .
+#          git commit -m "$COMMIT_MSG"
+#          git push origin $BRANCH_NAME
+#
+#          # Authorize GitHub CLI for the current repository
+#          echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token gh auth login --with-token < token.txt
+#
+#          # create a pull-requests containing the updates.
+#          gh pr create
+#          --title "$(KIBANA_PR_TITLE)" \
+#          --body "Automated by ${BUILDKITE_BUILD_URL}" \
+#          --label automation,release_note:skip \
+#          --base main \
+#          --head $(KIBANA_BRANCH_TEMPLATE) \
+#          --reviewer elastic/sec-linux-platform;\
