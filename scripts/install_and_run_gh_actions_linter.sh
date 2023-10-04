@@ -36,4 +36,4 @@ curl -o action_validator -fsSL "${GITHUB_RELEASE_URL}${BINARY}"
 chmod +x action_validator
 
 # Run action_validator on GitHub Actions workflow files
-bash -c './action_validator .github/workflows/*'
+bash -c './action_validator -v .github/workflows/*'
