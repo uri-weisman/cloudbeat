@@ -1,0 +1,37 @@
+name: CSPM-Onboarding-Links-CI
+
+on:
+  push:
+    branches:
+      - automate_links_version_update
+      - main
+      - "[0-9]+.[0-9]+"
+    types: [opened, synchronize, reopened]
+    paths:
+      - version/version.go
+
+jobs:
+  createPullRequest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Integrations Repo
+        uses: actions/checkout@v4
+        with:
+          repository: elastic/integrations
+          path: integrations
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: main
+
+      - name: Make changes to pull request
+        run: date +%s > ${{ GITHUB_WORKSPACE }}/integrations/report.txt
+
+      - name: Pushes to another repository
+        uses: cpina/github-action-push-to-another-repository@v.1.7.2
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          source-directory: ${{ GITHUB_WORKSPACE }}/integrations/
+          destination-github-username: 'Elastic Machine'
+          destination-repository-name: 'elastic/integrations'
+          user-email: elasticmachine@users.noreply.github.com
+          target-branch: main
