@@ -52,6 +52,9 @@ jobs:
           # Create a new feature branch for the changes.
           git checkout -b $BRANCH_NAME
 
+          # Authorize GitHub CLI for the current repository
+          gh auth login --with-token < token.txt
+
           # Commit the changes and push the feature branch to origin
           git add .
           git commit -m "$COMMIT_MSG"
@@ -61,9 +64,8 @@ jobs:
           # GitHub CLI.
           echo "${{ secrets.GITHUB_TOKEN }}" > token.txt
 
-          # Authorize GitHub CLI for the current repository and
+
           # create a pull-requests containing the updates.
-          gh auth login --with-token < token.txt
           gh pr create \
           --body "" \
           --title "chore: update scripts to $LATEST_TAG" \
