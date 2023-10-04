@@ -11,6 +11,8 @@ on:
 
 jobs:
   createPullRequest:
+    permissions:
+      contents: 'write'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Integrations Repo
