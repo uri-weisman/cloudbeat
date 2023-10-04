@@ -22,7 +22,7 @@ jobs:
           ref: main
 
       - name: Make changes to pull request
-        run: date +%s > ${{ GITHUB_WORKSPACE }}/integrations/report.txt
+        run: date +%s > ${{ GITHUB_WORKSPAE }}/integrations/report.txt
 
       - name: Pushes to another repository
         uses: cpina/github-action-push-to-another-repository@v.1.7.2
