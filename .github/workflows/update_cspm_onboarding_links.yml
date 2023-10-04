@@ -25,7 +25,7 @@ jobs:
         run: date +%s > integrations/report.txt
 
       - name: Pushes to another repository
-        uses: cpina/github-action-push-to-another-repository@v.1.7.2
+        uses: cpina/github-action-push-to-another-repository@v1.7.2
         env:
           API_TOKEN_GITHUB: ${{ secrets.GITHUB_TOKEN }}
         with:
