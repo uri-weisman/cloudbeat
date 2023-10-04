@@ -11,20 +11,18 @@ on:
 
 jobs:
   createPullRequest:
-    env:
-      FOLDER: integrations
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Integrations Repo
         uses: actions/checkout@v4
         with:
           repository: elastic/integrations
-          path: ${{ FOLDER }}
+          path: integrations
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: main
 
       - name: Make changes to pull request
-        run: date +%s > ${{ FOLDER }}/report.txt
+        run: date +%s > integrations/report.txt
 
 #      - name: Pushes to another repository
 #        uses: cpina/github-action-push-to-another-repository@v1.7.2
