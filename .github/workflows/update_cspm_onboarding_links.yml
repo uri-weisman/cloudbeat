@@ -12,7 +12,8 @@ on:
 jobs:
   createPullRequest:
     permissions:
-      contents: 'write'
+      contents: write
+      pull-requests: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Integrations Repo
@@ -47,6 +48,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "test commit message"
           branch: automate_links_version_update
+          delete-branch: true
           title: "Automated update of CSPM onboarding links due to Cloudbeat's version bump"
           body: "Automated PR"
           base: main
