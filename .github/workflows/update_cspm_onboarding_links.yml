@@ -30,7 +30,7 @@ jobs:
           API_TOKEN_GITHUB: ${{ secrets.GITHUB_TOKEN }}
         with:
           source-directory: integrations/
-          destination-github-username: 'Elastic Machine'
-          destination-repository-name: 'elastic/integrations'
+          destination-github-username: elastic
+          destination-repository-name: integrations
           user-email: elasticmachine@users.noreply.github.com
           target-branch: main
