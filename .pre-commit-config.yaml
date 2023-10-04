@@ -94,7 +94,9 @@ repos:
         pass_filenames: false
 
 
-  - repo: https://github.com/mpalmer/action-validator
-    rev: v0.5.3
+  - repo: local
     hooks:
       - id: action-validator
+        name: GH Action Validator
+        language: system
+        entry: ./scripts/install_and_run_gh_actions_linter.sh

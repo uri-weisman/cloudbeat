@@ -29,7 +29,7 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.GITHUB_TOKEN }}
         with:
-          source-directory: ${{ GITHUB_WORKSPACE }}/integrations/
+          source-directory: integrations/
           destination-github-username: 'Elastic Machine'
           destination-repository-name: 'elastic/integrations'
           user-email: elasticmachine@users.noreply.github.com
