@@ -11,26 +11,60 @@ on:
 
 jobs:
   createPullRequest:
+    env:
+      FOLDER: integrations
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Integrations Repo
         uses: actions/checkout@v4
         with:
           repository: elastic/integrations
-          path: integrations
+          path: $FOLDER
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: main
 
       - name: Make changes to pull request
         run: date +%s > integrations/report.txt
 
-      - name: Pushes to another repository
-        uses: cpina/github-action-push-to-another-repository@v1.7.2
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          source-directory: integrations/
-          destination-github-username: elastic
-          destination-repository-name: integrations
-          user-email: elasticmachine@users.noreply.github.com
-          target-branch: main
+#      - name: Pushes to another repository
+#        uses: cpina/github-action-push-to-another-repository@v1.7.2
+#        env:
+#          API_TOKEN_GITHUB: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          source-directory: integrations/
+#          destination-repository-username: elastic
+#          destination-repository-name: integrations
+#          user-name: Elastic Machine
+#          user-email: elasticmachine@users.noreply.github.com
+#          commit-message: Automated update of CSPM onboarding links due to Cloudbeat's version bump
+#          target-branch: main
+
+      - name: Create Pull Request
+        run: |
+          REPOSITORY="elastic/integrations"
+          BRANCH_NAME="test_onboarding_links_update"
+          COMMIT_MSG="Automated update of CSPM onboarding links due to Cloudbeat's version bump"
+
+          git config user.email "elasticmachine@users.noreply.github.com"
+          git config user.name "Elastic Machine"
+
+          # Create a new feature branch for the changes.
+          git checkout -b $BRANCH_NAME
+
+          # Commit the changes and push the feature branch to origin
+          git add .
+          git commit -m $COMMIT_MSG
+          git push upstream $BRANCH_NAME
+
+          # Store the PAT in a file that can be accessed by the
+          # GitHub CLI.
+          echo "${{ secrets.GITHUB_TOKEN }}" > token.txt
+
+          # Authorize GitHub CLI for the current repository and
+          # create a pull-requests containing the updates.
+          gh auth login --with-token < token.txt
+          gh pr create \
+          --body "" \
+          --title "chore: update scripts to $LATEST_TAG" \
+          --head "$BRANCH_NAME" \
+          --base "main"
