@@ -52,7 +52,7 @@ jobs:
 
           # Commit the changes and push the feature branch to origin
           git add .
-          git commit -m $COMMIT_MSG
+          git commit -m "$COMMIT_MSG"
           git push upstream $BRANCH_NAME
 
           # Store the PAT in a file that can be accessed by the
